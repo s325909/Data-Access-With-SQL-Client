@@ -18,7 +18,9 @@ namespace SQL_Client
             //        $"| {customer.Country} | {customer.PostalCode} | {customer.PhoneNumber} | {customer.Email}" );
             //}
 
-            var customer = customerRepo.GetCustomer(2);
+            // var customer = customerRepo.GetCustomer(2);
+
+            var customer = customerRepo.GetCustomer("Hansen");
             Console.WriteLine(customer.ToString());
         }
     }
