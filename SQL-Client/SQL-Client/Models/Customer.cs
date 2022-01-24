@@ -20,6 +20,13 @@ namespace SQL_Client.Models
 
         public string? PhoneNumber { get; set; }
 
-        public string? Email { get; set; }  
+        public string? Email { get; set; }
+
+        public override string ToString()
+        {
+            return $"({CustomerID}) {FirstName} {LastName} | " +
+                $"{Country} | {PostalCode} | {PhoneNumber} | {Email}";
+
+        }
     }
 }
