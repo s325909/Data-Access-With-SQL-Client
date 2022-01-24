@@ -9,19 +9,20 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
-            //var customers = customerRepo.GetAllCustomers();
+            var customers = customerRepo.GetAllCustomers();
 
 
-            //foreach (var customer in customers)
-            //{
-            //    Console.WriteLine($"{customer.FirstName} {customer.LastName} " +
-            //        $"| {customer.Country} | {customer.PostalCode} | {customer.PhoneNumber} | {customer.Email}" );
-            //}
 
-            // var customer = customerRepo.GetCustomer(2);
 
-            var customer = customerRepo.GetCustomer("Hansen");
-            Console.WriteLine(customer.ToString());
+            foreach (var customer1 in customers)
+            {
+                Console.WriteLine(customer1.ToString()); 
+            }
+
+            var customer = customerRepo.GetCustomer(2);
+
+            // var customer = customerRepo.GetCustomer("Hansen");
+            Console.WriteLine("\n" + customer.ToString());
         }
     }
 }

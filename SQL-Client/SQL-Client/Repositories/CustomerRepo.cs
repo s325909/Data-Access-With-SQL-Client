@@ -27,7 +27,8 @@ namespace SQL_Client.Repositories
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
 
-            var customersList = new List<Customer>();  
+            var customersList = new List<Customer>();
+
 
             try
             {
@@ -41,26 +42,7 @@ namespace SQL_Client.Repositories
                         {
                             while (reader.Read())
                             {
-                                Customer tmpCustomer = new();
-                                tmpCustomer.CustomerID = reader.GetInt32(0);
-
-                                if (!reader.IsDBNull(1))
-                                    tmpCustomer.FirstName = reader.GetString(1);
-
-                                if (!reader.IsDBNull(2))
-                                    tmpCustomer.LastName = reader.GetString(2);
-
-                                if (!reader.IsDBNull(3))
-                                    tmpCustomer.Country = reader.GetString(3);
-
-                                if (!reader.IsDBNull(4))
-                                    tmpCustomer.PostalCode = reader.GetString(4);
-
-                                if (!reader.IsDBNull(5))
-                                    tmpCustomer.PhoneNumber = reader.GetString(5);
-
-                                if (!reader.IsDBNull(6))
-                                    tmpCustomer.Email = reader.GetString(6);
+                                Customer tmpCustomer = GetReaderCustomer(reader);
 
                                 customersList.Add(tmpCustomer);
                             }
@@ -93,26 +75,7 @@ namespace SQL_Client.Repositories
                         {
                             while (reader.Read())
                             {
-                                Customer tmpCustomer = new();
-                                tmpCustomer.CustomerID = reader.GetInt32(0);
-
-                                if (!reader.IsDBNull(1))
-                                    tmpCustomer.FirstName = reader.GetString(1);
-
-                                if (!reader.IsDBNull(2))
-                                    tmpCustomer.LastName = reader.GetString(2);
-
-                                if (!reader.IsDBNull(3))
-                                    tmpCustomer.Country = reader.GetString(3);
-
-                                if (!reader.IsDBNull(4))
-                                    tmpCustomer.PostalCode = reader.GetString(4);
-
-                                if (!reader.IsDBNull(5))
-                                    tmpCustomer.PhoneNumber = reader.GetString(5);
-
-                                if (!reader.IsDBNull(6))
-                                    tmpCustomer.Email = reader.GetString(6);
+                                Customer tmpCustomer = GetReaderCustomer(reader);
 
                                 return tmpCustomer;
                             }
@@ -145,26 +108,7 @@ namespace SQL_Client.Repositories
                         {
                             while (reader.Read())
                             {
-                                Customer tmpCustomer = new();
-                                tmpCustomer.CustomerID = reader.GetInt32(0);
-
-                                if (!reader.IsDBNull(1))
-                                    tmpCustomer.FirstName = reader.GetString(1);
-
-                                if (!reader.IsDBNull(2))
-                                    tmpCustomer.LastName = reader.GetString(2);
-
-                                if (!reader.IsDBNull(3))
-                                    tmpCustomer.Country = reader.GetString(3);
-
-                                if (!reader.IsDBNull(4))
-                                    tmpCustomer.PostalCode = reader.GetString(4);
-
-                                if (!reader.IsDBNull(5))
-                                    tmpCustomer.PhoneNumber = reader.GetString(5);
-
-                                if (!reader.IsDBNull(6))
-                                    tmpCustomer.Email = reader.GetString(6);
+                                Customer tmpCustomer = GetReaderCustomer(reader);
 
                                 return tmpCustomer;
                             }
@@ -178,6 +122,32 @@ namespace SQL_Client.Repositories
             }
 
             return null;
+        }
+
+        private Customer GetReaderCustomer(SqlDataReader reader)
+        {
+            Customer customer = new();
+            customer.CustomerID = reader.GetInt32(0);
+
+            if (!reader.IsDBNull(1))
+                customer.FirstName = reader.GetString(1);
+
+            if (!reader.IsDBNull(2))
+                customer.LastName = reader.GetString(2);
+
+            if (!reader.IsDBNull(3))
+                customer.Country = reader.GetString(3);
+
+            if (!reader.IsDBNull(4))
+                customer.PostalCode = reader.GetString(4);
+
+            if (!reader.IsDBNull(5))
+                customer.PhoneNumber = reader.GetString(5);
+
+            if (!reader.IsDBNull(6))
+                customer.Email = reader.GetString(6);
+
+            return customer;
         }
 
         public bool UpdateCustomer(Customer customer)
