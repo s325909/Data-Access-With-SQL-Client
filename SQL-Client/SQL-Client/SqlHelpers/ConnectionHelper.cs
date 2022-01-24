@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SQL_Client.SqlHelpers
 {
-    public class SQLHelper
+    public class ConnectionHelper
     {
 
-        public static string ConnectionString() 
+        public static string GetConnectionString()
         {
             SqlConnectionStringBuilder builder = new();
 
@@ -19,12 +19,16 @@ namespace SQL_Client.SqlHelpers
             builder.IntegratedSecurity = true;
             builder.TrustServerCertificate = true;
 
+            //using (SqlConnection connection = new(builder.ConnectionString))
+            //{
+            //    connection.Open();
+            //    Console.WriteLine("Done \n");
+            //}
 
             return builder.ConnectionString;
         }
 
-     
-        
-       
+
+
     }
 }
