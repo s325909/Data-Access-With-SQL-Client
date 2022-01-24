@@ -6,4 +6,8 @@
     <RootNamespace>SQL_Client</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.1" />
+  </ItemGroup>
+
 </Project>
