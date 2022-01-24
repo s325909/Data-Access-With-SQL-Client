@@ -3,16 +3,12 @@ using SQL_Client.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQL_Client.SqlHelpers;
+using SQL_Client.SqlHelpers; 
 
 namespace SQL_Client.Repositories
 {
     public class CustomerRepo : ICustomerRepo
     {
-
-
         public bool AddNewCustomer(Customer customer)
         {
             throw new NotImplementedException();
@@ -28,7 +24,6 @@ namespace SQL_Client.Repositories
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
 
             var customersList = new List<Customer>();
-
 
             try
             {
@@ -54,6 +49,40 @@ namespace SQL_Client.Repositories
                 Console.WriteLine(ex.ToString());
             }
 
+            return customersList;
+        }
+
+        public List<Customer> GetAllCustomers(int limit, int offset)
+        {
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                $"FROM Customer LIMIT {limit} OFFSET {offset}";
+
+            var customersList = new List<Customer>();
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Customer tmpCustomer = GetReaderCustomer(reader);
+
+                                customersList.Add(tmpCustomer);
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
             return customersList;
         }
@@ -124,6 +153,11 @@ namespace SQL_Client.Repositories
             return null;
         }
 
+        public bool UpdateCustomer(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
         private Customer GetReaderCustomer(SqlDataReader reader)
         {
             Customer customer = new();
@@ -150,11 +184,5 @@ namespace SQL_Client.Repositories
             return customer;
         }
 
-        public bool UpdateCustomer(Customer customer)
-        {
-            throw new NotImplementedException();
-        }
-
-        // private void () { }
     }
 }
