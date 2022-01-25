@@ -9,6 +9,12 @@ namespace SQL_Client.Repositories
 {
     public class CustomerRepo : ICustomerRepo
     {
+        public List<Customer> GetAllCustomers()
+        {
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
+            return ConnectExecutionHelper.GetAllCustomers(sql);
+        }
+
         public bool CreateCustomer(Customer customer)
         {
             string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
@@ -24,35 +30,10 @@ namespace SQL_Client.Repositories
 
         public bool UpdateCustomer(Customer customer)
         {
-            string sql = "Update Customer SET FirstName = @FirstName, LastName = @LastName, " +
-                "Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email " +
-                "WHERE CustomerId = @CustomerId";
+            string sql = "Update Customer ";
+            sql += "SET FirstName = @FirstName, LastName = @LastName, Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email ";
+            sql += "WHERE CustomerId = @CustomerId";
             return ConnectExecutionHelper.CRUDCustomer(customer, sql);
-        }
-
-        public List<Customer> GetAllCustomers()
-        {
-            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
-
-            var customersList = new List<Customer>();
-
-            try
-            {
-                // Connect
-                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    using (SqlCommand cmd = new(sql, connection))
-                    {
-                        return DataReadHelper.GetCustomers(cmd);
-                    };
-                };
-            } catch (SqlException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            return customersList;
         }
 
         public List<Customer> GetAllCustomers(int limit, int offset)
@@ -141,6 +122,10 @@ namespace SQL_Client.Repositories
 
             return null;
         }
+
+
+
+        // MOVE TO SEPERATE CUSTOMERCOUNTRY CLASS MODEL
 
         public void GetCustomerCountry()
         {

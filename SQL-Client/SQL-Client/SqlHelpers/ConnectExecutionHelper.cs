@@ -16,7 +16,7 @@ namespace SQL_Client.SqlHelpers
             
             try
             {
-                // Connect
+                // connects to the database
                 using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
                 {
                     connection.Open();
@@ -40,6 +40,29 @@ namespace SQL_Client.SqlHelpers
             }
 
             return success;
+        }
+
+        public static List<Customer> GetAllCustomers(string sql)
+        {
+            try
+            {
+                // connect to the database
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        // returns list of customers from the database
+                        return DataReadHelper.GetCustomers(cmd);
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return new List<Customer>();
         }
     }
 }
