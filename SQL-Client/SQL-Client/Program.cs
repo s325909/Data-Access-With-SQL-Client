@@ -129,9 +129,10 @@ namespace SQL_Client
 
         private static void TestCreateCustomer(ICustomerRepo customerRepo)
         {
+            string name = "Bjarne";
             Customer customer = new() 
             {
-                FirstName = "Are",
+                FirstName = name,
                 LastName = "Pettersen",
                 Country = "Norge",
                 PostalCode = "3000",
@@ -141,14 +142,24 @@ namespace SQL_Client
             Console.WriteLine("\nCreate Customer: " + customer.ToString());
             bool successful = customerRepo.CreateCustomer(customer);
             if (successful)
-                Console.WriteLine("Succesful: " + customerRepo.GetCustomer("Are"));
+                Console.WriteLine("Succesful: " + customerRepo.GetCustomer(name));
             else
                 Console.WriteLine("FAILED TO ADD NEW CUSTOMER...");
         }
 
         private static void TestUpdateCustomer(ICustomerRepo customerRepo)
         {
-            throw new NotImplementedException();
+            // string name = "Arne";
+            Customer customer = customerRepo.GetCustomer(60);
+            Console.WriteLine("\nUpdate Customer: " + customer.ToString());
+
+            customer.FirstName = "Ole";
+
+            bool successful = customerRepo.UpdateCustomer(customer); 
+            if (successful)
+                Console.WriteLine("Succesful: " + customerRepo.GetCustomer(60));
+            else
+                Console.WriteLine("FAILED TO AUPDATE CUSTOMER...");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace SQL_Client.Models
 {
     public class Customer
     {
-        public int CustomerID { get; set; }
+        public int CustomerId { get; set; }
 
         public string? FirstName { get; set; }
 
@@ -24,7 +24,7 @@ namespace SQL_Client.Models
 
         public override string ToString()
         {
-            return $"({CustomerID}) {FirstName} {LastName} | " +
+            return $"({CustomerId}) {FirstName} {LastName} | " +
                 $"{Country} | {PostalCode} | {PhoneNumber} | {Email}";
 
         }

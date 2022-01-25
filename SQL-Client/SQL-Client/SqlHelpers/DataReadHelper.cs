@@ -43,7 +43,7 @@ namespace SQL_Client.SqlHelpers
         private static Customer GetReaderCustomer(SqlDataReader reader)
         {
             Customer customer = new();
-            customer.CustomerID = reader.GetInt32(0);
+            customer.CustomerId = reader.GetInt32(0);
 
             if (!reader.IsDBNull(1))
                 customer.FirstName = reader.GetString(1);

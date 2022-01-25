@@ -14,7 +14,7 @@ namespace SQL_Client.Repositories
             string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
             sql += " Values (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
 
-            return ConnectExecutionHelper.AddNewCustomer(customer, sql);
+            return ConnectExecutionHelper.CreateUpdateCustomer(customer, sql);
         }
 
         public bool DeleteCustomer(Customer customer)
@@ -30,8 +30,12 @@ namespace SQL_Client.Repositories
                 "FirstName = @FirstName, LastName = @LastName, " +
                 "Country = @Country, PostalCode = @PostalCode, " +
                 "Phone = @Phone, Email = @Email " +
-                "WHERE CustomerID = @CustomerID";
+                "WHERE CustomerId = @CustomerId";
 
+
+            return ConnectExecutionHelper.CreateUpdateCustomer(customer, sql);
+
+            /**
             try
             {
                 // Connect
@@ -40,7 +44,7 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
-                        cmd.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                        cmd.Parameters.AddWithValue("@CustomerId", customer.CustomerId);
                         cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
                         cmd.Parameters.AddWithValue("@LastName", customer.LastName);
                         cmd.Parameters.AddWithValue("@Country", customer.Country);
@@ -60,6 +64,8 @@ namespace SQL_Client.Repositories
             }
 
             return false;
+
+            **/
         }
 
         public List<Customer> GetAllCustomers()
@@ -176,7 +182,7 @@ namespace SQL_Client.Repositories
 
         public void GetCustomerCountry()
         {
-            string sql = "SELECT Country, COUNT(CustomerID) AS Antall FROM CUSTOMER " +
+            string sql = "SELECT Country, COUNT(CustomerId) AS Antall FROM CUSTOMER " +
                 "GROUP BY Country ORDER BY Country DESC";
 
                 //"SELECT Country, COUNT(CustomerID), Country FROM CUSTOMER"; // +

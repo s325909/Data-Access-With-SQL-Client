@@ -10,10 +10,10 @@ namespace SQL_Client.SqlHelpers
 {
     public class ConnectExecutionHelper
     {
-        public static bool AddNewCustomer(Customer customer, string sql)
+        public static bool CreateUpdateCustomer(Customer customer, string sql)
         {
             bool success = false;
-
+            
             try
             {
                 // Connect
@@ -22,6 +22,7 @@ namespace SQL_Client.SqlHelpers
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                        cmd.Parameters.AddWithValue("@CustomerId", customer.CustomerId);
                         cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
                         cmd.Parameters.AddWithValue("@LastName", customer.LastName);
                         cmd.Parameters.AddWithValue("@Country", customer.Country);
