@@ -64,5 +64,33 @@ namespace SQL_Client.SqlHelpers
 
             return new List<Customer>();
         }
+
+        public static List<Customer> GetSelectedCustomers(string sql, int limit, int offset)
+        {
+            var customersList = new List<Customer>();
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        // cmd.Parameters.AddWithValue("@LastName", )
+                        cmd.Parameters.AddWithValue("@Limit", limit);
+                        cmd.Parameters.AddWithValue("@Offset", offset);
+
+                        return DataReadHelper.GetCustomers(cmd);
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return customersList;
+        }
     }
 }

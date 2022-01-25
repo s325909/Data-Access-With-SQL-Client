@@ -15,56 +15,11 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.GetAllCustomers(sql);
         }
 
-        public bool CreateCustomer(Customer customer)
-        {
-            string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
-            sql += " Values (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
-            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
-        }
-
-        public bool DeleteCustomer(Customer customer)
-        {
-            string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
-            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
-        }
-
-        public bool UpdateCustomer(Customer customer)
-        {
-            string sql = "Update Customer ";
-            sql += "SET FirstName = @FirstName, LastName = @LastName, Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email ";
-            sql += "WHERE CustomerId = @CustomerId";
-            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
-        }
-
         public List<Customer> GetAllCustomers(int limit, int offset)
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
                 "FROM Customer ORDER BY CustomerId OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
-
-            var customersList = new List<Customer>();
-
-            try
-            {
-                // Connect
-                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    using (SqlCommand cmd = new(sql, connection))
-                    {
-                       // cmd.Parameters.AddWithValue("@LastName", )
-                        cmd.Parameters.AddWithValue("@Limit", limit);
-                        cmd.Parameters.AddWithValue("@Offset", offset);
-
-                        return DataReadHelper.GetCustomers(cmd);
-                    };
-                };
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            return customersList;
+            return ConnectExecutionHelper.GetSelectedCustomers(sql, limit, offset);
         }
 
         public Customer GetCustomer(int id)
@@ -86,7 +41,7 @@ namespace SQL_Client.Repositories
                         return DataReadHelper.GetCustomer(cmd);
                     };
                 };
-            } 
+            }
             catch (SqlException exception)
             {
                 Console.WriteLine(exception.ToString());
@@ -122,6 +77,29 @@ namespace SQL_Client.Repositories
 
             return null;
         }
+
+        public bool CreateCustomer(Customer customer)
+        {
+            string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
+            sql += " Values (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
+        }
+
+        public bool DeleteCustomer(Customer customer)
+        {
+            string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
+        }
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            string sql = "Update Customer ";
+            sql += "SET FirstName = @FirstName, LastName = @LastName, Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email ";
+            sql += "WHERE CustomerId = @CustomerId";
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
+        }
+
+       
 
 
 
