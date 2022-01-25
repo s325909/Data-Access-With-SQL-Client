@@ -23,7 +23,7 @@ namespace SQL_Client
             TestLimitCustomersByOffset(customerRepo);
 
             // Adds a new customer to the database
-            // TestCreateCustomer(customerRepo);
+            TestCreateCustomer(customerRepo);
 
             // Updates an existing customer
             TestUpdateCustomer(customerRepo);
@@ -129,7 +129,7 @@ namespace SQL_Client
 
         private static void TestCreateCustomer(ICustomerRepo customerRepo)
         {
-            string name = "Bjarne";
+            string name = "Berit";
             Customer customer = new() 
             {
                 FirstName = name,
@@ -153,7 +153,7 @@ namespace SQL_Client
             Customer customer = customerRepo.GetCustomer(60);
             Console.WriteLine("\nUpdate Customer: " + customer.ToString());
 
-            customer.FirstName = "Ole";
+            customer.FirstName = "Gunnar";
 
             bool successful = customerRepo.UpdateCustomer(customer); 
             if (successful)

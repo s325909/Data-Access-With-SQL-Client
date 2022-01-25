@@ -13,23 +13,21 @@ namespace SQL_Client.Repositories
         {
             string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
             sql += " Values (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
-
-            return ConnectExecutionHelper.CreateUpdateCustomer(customer, sql);
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
         public bool DeleteCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
         public bool UpdateCustomer(Customer customer)
         {
-            String sql = "Update Customer SET " +
-                "FirstName = @FirstName, LastName = @LastName, " +
-                "Country = @Country, PostalCode = @PostalCode, " +
-                "Phone = @Phone, Email = @Email " +
+            string sql = "Update Customer SET FirstName = @FirstName, LastName = @LastName, " +
+                "Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email " +
                 "WHERE CustomerId = @CustomerId";
-            return ConnectExecutionHelper.CreateUpdateCustomer(customer, sql);
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
         public List<Customer> GetAllCustomers()

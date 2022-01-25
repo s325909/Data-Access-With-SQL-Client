@@ -10,7 +10,7 @@ namespace SQL_Client.SqlHelpers
 {
     public class ConnectExecutionHelper
     {
-        public static bool CreateUpdateCustomer(Customer customer, string sql)
+        public static bool CRUDCustomer(Customer customer, string sql)
         {
             bool success = false;
             
