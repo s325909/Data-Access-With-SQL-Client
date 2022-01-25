@@ -24,73 +24,15 @@ namespace SQL_Client
 
 
             // Adds a new customer to the database
-            //TestCreateCustomer(customerRepo);
+            TestCreateCustomer(customerRepo);
 
             // Updates an existing customer
-            //TestUpdateCustomer(customerRepo);
+            TestUpdateCustomer(customerRepo);
 
 
 
-            
-            /**
-            
-            ICustomerRepo customerRepo = new CustomerRepo();
-
-            var customers = customerRepo.GetAllCustomers(2, 5);
-
-            //var customers = customerRepo.GetAllCustomers();
-
-
-
-            foreach (var customer1 in customers)
-            {
-                Console.WriteLine(customer1.ToString()); 
-            }
-
-           // Customer customer = customerRepo.GetCustomer(2);
-
-          
-            Console.WriteLine("\n" + customerRepo.GetCustomer("Mark"));
-
-            Customer customer = customerRepo.GetCustomer(60);
-
-            customer.FirstName = "Steinar";
-
-            customerRepo.UpdateCustomer(customer);
-
-            Console.WriteLine("\n" + customerRepo.GetCustomer(60).ToString());
-
-
-
-            customerRepo.GetCustomerCountry();
+            // customerRepo.GetCustomerCountry();
            // Console.WriteLine(customerRepo.GetCustomerCountry());
-
-            // var newCustomer =
-            //
-
-            /**
-            Customer newCustomer = new()
-            {
-                FirstName = "Svein",
-                LastName = "Pettersen",
-                Country = "Norge",
-                PostalCode = "3000",
-                PhoneNumber = "0309940224",
-                Email = "AJdks@djsfp.ado"
-            };
-
-
-            **/
-
-
-            // customerRepo.AddNewCustomer(newCustomer);
-
-            // newCustomer.FirstName = "Svein";
-
-            // customerRepo.UpdateCustomer(newCustomer);
-
-
-            
         }
 
 
@@ -114,7 +56,7 @@ namespace SQL_Client
         private static void TestGetCustomerByName(ICustomerRepo repo)
         {
             Customer customer = repo.GetCustomer("Mark");
-            Console.WriteLine("\nCustomer(s) by name Mark \n" + customer.ToString());
+            Console.WriteLine("\nCustomer by name Mark \n" + customer.ToString());
         }
 
         private static void TestLimitCustomersByOffset(ICustomerRepo repo) 
@@ -130,7 +72,7 @@ namespace SQL_Client
 
         private static void TestCreateCustomer(ICustomerRepo customerRepo)
         {
-            string name = "Berit";
+            string name = "Per";
             Customer customer = new() 
             {
                 FirstName = name,
@@ -154,7 +96,7 @@ namespace SQL_Client
             Customer customer = customerRepo.GetCustomer(60);
             Console.WriteLine("\nUpdate Customer: " + customer.ToString());
 
-            customer.FirstName = "Gunnar";
+            customer.FirstName = "Olav";
 
             bool successful = customerRepo.UpdateCustomer(customer); 
             if (successful)

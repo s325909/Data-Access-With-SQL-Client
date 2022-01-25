@@ -42,6 +42,55 @@ namespace SQL_Client.SqlHelpers
             return success;
         }
 
+        public static Customer GetCustomerById(string sql, int id)
+        {
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerId", id);
+                        return DataReadHelper.GetCustomer(cmd);
+                    };
+                };
+            }
+            catch (SqlException exception)
+            {
+                Console.WriteLine(exception.ToString());
+            }
+
+            return new Customer();
+        }
+
+        public static Customer GetCustomerByName(string sql, string name)
+        {
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName", name);
+                        cmd.Parameters.AddWithValue("@LastName", name);
+
+                        return DataReadHelper.GetCustomer(cmd);
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return new Customer();
+        }
+
         public static List<Customer> GetAllCustomers(string sql)
         {
             try

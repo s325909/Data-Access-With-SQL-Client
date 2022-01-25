@@ -26,56 +26,14 @@ namespace SQL_Client.Repositories
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
                 "FROM Customer WHERE CustomerId = @CustomerId";
-
-            try
-            {
-                // Connect
-                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-
-                    using (SqlCommand cmd = new(sql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@CustomerId", id);
-
-                        return DataReadHelper.GetCustomer(cmd);
-                    };
-                };
-            }
-            catch (SqlException exception)
-            {
-                Console.WriteLine(exception.ToString());
-            }
-
-            return null;
+            return ConnectExecutionHelper.GetCustomerById(sql, id);
         }
 
         public Customer GetCustomer(string name)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
                 "FROM Customer WHERE FirstName LIKE @FirstName OR LastName LIKE @LastName";
-
-            try
-            {
-                // Connect
-                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    using (SqlCommand cmd = new(sql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@FirstName", name);
-                        cmd.Parameters.AddWithValue("@LastName", name);
-
-                        return DataReadHelper.GetCustomer(cmd);
-                    };
-                };
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            return null;
+            return ConnectExecutionHelper.GetCustomerByName(sql, name);
         }
 
         public bool CreateCustomer(Customer customer)
