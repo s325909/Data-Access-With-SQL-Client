@@ -21,13 +21,14 @@ namespace SQL_Client
                 Console.WriteLine(customer1.ToString()); 
             }
 
-            var customer = customerRepo.GetCustomer(60);
+           // Customer customer = customerRepo.GetCustomer(2);
 
-            // var customer = customerRepo.GetCustomer("Hansen");
-            Console.WriteLine("\n" + customer.ToString());
+          
+            Console.WriteLine("\n" + customerRepo.GetCustomer("Mark"));
 
+            Customer customer = customerRepo.GetCustomer(60);
 
-            customer.FirstName = "Ole Dole";
+            customer.FirstName = "Steinar";
 
             customerRepo.UpdateCustomer(customer);
 

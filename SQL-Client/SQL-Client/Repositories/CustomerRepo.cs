@@ -121,7 +121,7 @@ namespace SQL_Client.Repositories
         public Customer GetCustomer(int id)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                $"FROM Customer WHERE CustomerId = '{id}'";
+                "FROM Customer WHERE CustomerId = @CustomerId";
 
             try
             {
@@ -131,6 +131,8 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                        cmd.Parameters.AddWithValue("@CustomerId", id);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -154,7 +156,8 @@ namespace SQL_Client.Repositories
         public Customer GetCustomer(string name)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                $"FROM Customer WHERE FirstName LIKE '{name}' OR LastName LIKE '{name}'";
+                //$"FROM Customer WHERE FirstName LIKE '{name}' OR LastName LIKE '{name}'";
+                "FROM Customer WHERE FirstName LIKE @FirstName OR LastName LIKE @LastName";
 
             try
             {
@@ -164,6 +167,9 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                        cmd.Parameters.AddWithValue("@FirstName", name);
+                        cmd.Parameters.AddWithValue("@LastName", name);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -192,7 +198,7 @@ namespace SQL_Client.Repositories
                 "FirstName = @FirstName, LastName = @LastName, " +
                 "Country = @Country, PostalCode = @PostalCode, " +
                 "Phone = @Phone, Email = @Email " +
-                "WHERE CustomerID = @CustomerID";   // CustomerID = @CustomerID
+                "WHERE CustomerID = @CustomerID";
 
             try
             {
