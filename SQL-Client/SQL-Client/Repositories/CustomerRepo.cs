@@ -11,7 +11,38 @@ namespace SQL_Client.Repositories
     {
         public bool AddNewCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
+            sql += " Values (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+
+            // SqlCommand sqlCommand = new(sql, ConnectionHelper.GetConnectionString())
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+
+                        cmd.ExecuteNonQuery();
+
+                        return true;
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return false;
         }
 
         public bool DeleteCustomer(Customer customer)

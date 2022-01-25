@@ -1,4 +1,5 @@
 ﻿using System;
+using SQL_Client.Models;
 using SQL_Client.Repositories;
 
 namespace SQL_Client
@@ -24,6 +25,25 @@ namespace SQL_Client
 
             // var customer = customerRepo.GetCustomer("Hansen");
             Console.WriteLine("\n" + customer.ToString());
+
+
+            // var newCustomer =
+            //
+
+            Customer newCustomer = new()
+            {
+                FirstName = "Bob",
+                LastName = "Pettersen",
+                Country = "Norge",
+                PostalCode = "3000",
+                PhoneNumber = "0309940224",
+                Email = "AJdks@djsfp.ado"
+            };
+
+
+            // customerRepo.AddNewCustomer(newCustomer);
+
+            
         }
     }
 }
