@@ -43,12 +43,6 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
-        public bool DeleteCustomer(Customer customer)
-        {
-            string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
-            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
-        }
-
         public bool UpdateCustomer(Customer customer)
         {
             string sql = "Update Customer ";
@@ -57,7 +51,12 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
-       
+        public bool DeleteCustomer(Customer customer)
+        {
+            string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
+            return ConnectExecutionHelper.CRUDCustomer(customer, sql);
+        }
+
 
 
 
