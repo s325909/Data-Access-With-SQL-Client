@@ -50,6 +50,46 @@ namespace SQL_Client.Repositories
             throw new NotImplementedException();
         }
 
+        public bool UpdateCustomer(Customer customer)
+        {
+            // string sql = "UPDATE Customer SET FirstName = @"
+
+            String sql = "Update Customer SET " +
+                "FirstName = @FirstName, LastName = @LastName, " +
+                "Country = @Country, PostalCode = @PostalCode, " +
+                "Phone = @Phone, Email = @Email " +
+                "WHERE CustomerID = @CustomerID";
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+
+                        cmd.ExecuteNonQuery();
+
+                        return true;
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return false;
+        }
+
         public List<Customer> GetAllCustomers()
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
@@ -86,7 +126,7 @@ namespace SQL_Client.Repositories
         public List<Customer> GetAllCustomers(int limit, int offset)
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                $"FROM Customer LIMIT {limit} OFFSET {offset}";
+                "FROM Customer ORDER BY CustomerId OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
 
             var customersList = new List<Customer>();
 
@@ -98,6 +138,11 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                       // cmd.Parameters.AddWithValue("@LastName", )
+                        cmd.Parameters.AddWithValue("@Limit", limit);
+                        cmd.Parameters.AddWithValue("@Offset", offset);
+
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -190,45 +235,6 @@ namespace SQL_Client.Repositories
             return null;
         }
 
-        public bool UpdateCustomer(Customer customer)
-        {
-            // string sql = "UPDATE Customer SET FirstName = @"
-
-            String sql = "Update Customer SET " +
-                "FirstName = @FirstName, LastName = @LastName, " +
-                "Country = @Country, PostalCode = @PostalCode, " +
-                "Phone = @Phone, Email = @Email " +
-                "WHERE CustomerID = @CustomerID";
-
-            try
-            {
-                // Connect
-                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    using (SqlCommand cmd = new(sql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
-                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
-                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
-                        cmd.Parameters.AddWithValue("@Country", customer.Country);
-                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
-                        cmd.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
-                        cmd.Parameters.AddWithValue("@Email", customer.Email);
-
-                        cmd.ExecuteNonQuery();
-
-                        return true;
-                    };
-                };
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            return false;
-        }
 
         private Customer GetReaderCustomer(SqlDataReader reader)
         {

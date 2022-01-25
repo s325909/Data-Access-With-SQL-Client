@@ -10,9 +10,9 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
-            // var customers = customerRepo.GetAllCustomers(5, 2);
+            var customers = customerRepo.GetAllCustomers(2, 5);
 
-            var customers = customerRepo.GetAllCustomers();
+            //var customers = customerRepo.GetAllCustomers();
 
 
 
