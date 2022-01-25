@@ -9,12 +9,22 @@ namespace SQL_Client.Repositories
 {
     public class CustomerRepo : ICustomerRepo
     {
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <returns>list of all customers</returns>
         public List<Customer> GetAllCustomers()
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer";
             return ConnectExecutionHelper.GetAllCustomers(sql);
         }
 
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <returns>returns a list of selected customers based on the provided limit and offset</returns>
         public List<Customer> GetAllCustomers(int limit, int offset)
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
@@ -22,6 +32,11 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.GetSelectedCustomers(sql, limit, offset);
         }
 
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>returns a customer by id</returns>
         public Customer GetCustomer(int id)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
@@ -29,6 +44,11 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.GetCustomerById(sql, id);
         }
 
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>returns a customer by name (firstname or lastname)</returns>
         public Customer GetCustomer(string name)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
@@ -36,6 +56,11 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.GetCustomerByName(sql, name);
         }
 
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>true or false if the customer has been added to the database</returns>
         public bool CreateCustomer(Customer customer)
         {
             string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
@@ -43,6 +68,11 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>returns true or false if customer updated in the database </returns>
         public bool UpdateCustomer(Customer customer)
         {
             string sql = "Update Customer ";
@@ -51,6 +81,11 @@ namespace SQL_Client.Repositories
             return ConnectExecutionHelper.CRUDCustomer(customer, sql);
         }
 
+        /// <summary>
+        /// this function connects to the database and executes a SQL query 
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>true or false if customer deleted from the database</returns>
         public bool DeleteCustomer(Customer customer)
         {
             string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";

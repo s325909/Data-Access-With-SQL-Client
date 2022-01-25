@@ -26,7 +26,6 @@ namespace SQL_Client.Models
         {
             return $"({CustomerId}) {FirstName} {LastName} | " +
                 $"{Country} | {PostalCode} | {PhoneNumber} | {Email}";
-
         }
     }
 }

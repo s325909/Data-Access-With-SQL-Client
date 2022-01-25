@@ -22,13 +22,11 @@ namespace SQL_Client
             // Returns a page of customers from the database using keywords LIMIT and OFFSET
             TestLimitCustomersByOffset(customerRepo);
 
-
             // Adds a new customer to the database
             TestCreateCustomer(customerRepo);
 
             // Updates an existing customer
             TestUpdateCustomer(customerRepo);
-
 
 
             // customerRepo.GetCustomerCountry();
