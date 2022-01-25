@@ -13,7 +13,7 @@ namespace SQL_Client.Repositories
 
         public Customer GetCustomer(string name);
 
-        public string GetCustomerCountry();
+        public void GetCustomerCountry();
 
         public List<Customer> GetAllCustomers();
 

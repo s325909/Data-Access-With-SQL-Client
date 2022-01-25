@@ -36,8 +36,8 @@ namespace SQL_Client
 
 
 
-
-            Console.WriteLine(customerRepo.GetCustomerCountry());
+            customerRepo.GetCustomerCountry();
+           // Console.WriteLine(customerRepo.GetCustomerCountry());
 
             // var newCustomer =
             //

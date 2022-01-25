@@ -235,10 +235,13 @@ namespace SQL_Client.Repositories
             return null;
         }
 
-        public string GetCustomerCountry()
+        public void GetCustomerCountry()
         {
-            string sql = $"SELECT COUNT(CustomerId), Country FROM CUSTOMER " +
+            string sql = "SELECT Country, COUNT(CustomerID) AS Antall FROM CUSTOMER " +
                 "GROUP BY Country ORDER BY Country DESC";
+
+                //"SELECT Country, COUNT(CustomerID), Country FROM CUSTOMER"; // +
+                //"GROUP BY Country ORDER BY COUNT(CustomerID) DESC";
 
             try
             {
@@ -248,7 +251,13 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
-                        return cmd.ExecuteScalar().ToString();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.WriteLine(reader.GetString(0) + ": " + reader.GetInt32(1));
+                            }
+                        };
                     };
                 };
             }
@@ -256,8 +265,6 @@ namespace SQL_Client.Repositories
             {
                 Console.WriteLine(ex.ToString());
             }
-
-            return "????";
         }
 
         private Customer GetReaderCustomer(SqlDataReader reader)
