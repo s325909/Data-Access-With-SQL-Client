@@ -11,7 +11,9 @@ namespace SQL_Client.Repositories
     {
         public Customer GetCustomer(int id);
 
-        public Customer GetCustomer(string name); 
+        public Customer GetCustomer(string name);
+
+        public void GetCustomerCountry();
 
         public List<Customer> GetAllCustomers();
 

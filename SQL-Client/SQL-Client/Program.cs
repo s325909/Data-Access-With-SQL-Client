@@ -1,4 +1,5 @@
 ﻿using System;
+using SQL_Client.Models;
 using SQL_Client.Repositories;
 
 namespace SQL_Client
@@ -9,9 +10,9 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
-            var customers = customerRepo.GetAllCustomers(5, 2);
+            var customers = customerRepo.GetAllCustomers(2, 5);
 
-            // var customers = customerRepo.GetAllCustomers();
+            //var customers = customerRepo.GetAllCustomers();
 
 
 
@@ -20,10 +21,45 @@ namespace SQL_Client
                 Console.WriteLine(customer1.ToString()); 
             }
 
-            var customer = customerRepo.GetCustomer(2);
+           // Customer customer = customerRepo.GetCustomer(2);
 
-            // var customer = customerRepo.GetCustomer("Hansen");
-            Console.WriteLine("\n" + customer.ToString());
+          
+            Console.WriteLine("\n" + customerRepo.GetCustomer("Mark"));
+
+            Customer customer = customerRepo.GetCustomer(60);
+
+            customer.FirstName = "Steinar";
+
+            customerRepo.UpdateCustomer(customer);
+
+            Console.WriteLine("\n" + customerRepo.GetCustomer(60).ToString());
+
+
+
+            customerRepo.GetCustomerCountry();
+           // Console.WriteLine(customerRepo.GetCustomerCountry());
+
+            // var newCustomer =
+            //
+
+            /**
+            Customer newCustomer = new()
+            {
+                FirstName = "Svein",
+                LastName = "Pettersen",
+                Country = "Norge",
+                PostalCode = "3000",
+                PhoneNumber = "0309940224",
+                Email = "AJdks@djsfp.ado"
+            };
+            **/
+
+
+            // customerRepo.AddNewCustomer(newCustomer);
+
+            // newCustomer.FirstName = "Svein";
+
+            // customerRepo.UpdateCustomer(newCustomer);
         }
     }
 }

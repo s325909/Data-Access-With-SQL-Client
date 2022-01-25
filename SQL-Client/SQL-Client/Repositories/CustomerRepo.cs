@@ -11,12 +11,83 @@ namespace SQL_Client.Repositories
     {
         public bool AddNewCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            string sql = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)";
+            sql += " Values (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+
+            // SqlCommand sqlCommand = new(sql, ConnectionHelper.GetConnectionString())
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+
+                        cmd.ExecuteNonQuery();
+
+                        return true;
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return false;
         }
 
         public bool DeleteCustomer(Customer customer)
         {
             throw new NotImplementedException();
+        }
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            // string sql = "UPDATE Customer SET FirstName = @"
+
+            String sql = "Update Customer SET " +
+                "FirstName = @FirstName, LastName = @LastName, " +
+                "Country = @Country, PostalCode = @PostalCode, " +
+                "Phone = @Phone, Email = @Email " +
+                "WHERE CustomerID = @CustomerID";
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+
+                        cmd.ExecuteNonQuery();
+
+                        return true;
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return false;
         }
 
         public List<Customer> GetAllCustomers()
@@ -55,7 +126,7 @@ namespace SQL_Client.Repositories
         public List<Customer> GetAllCustomers(int limit, int offset)
         {
             string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                $"FROM Customer LIMIT {limit} OFFSET {offset}";
+                "FROM Customer ORDER BY CustomerId OFFSET @Offset ROWS FETCH NEXT @Limit ROWS ONLY";
 
             var customersList = new List<Customer>();
 
@@ -67,6 +138,11 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                       // cmd.Parameters.AddWithValue("@LastName", )
+                        cmd.Parameters.AddWithValue("@Limit", limit);
+                        cmd.Parameters.AddWithValue("@Offset", offset);
+
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -90,7 +166,7 @@ namespace SQL_Client.Repositories
         public Customer GetCustomer(int id)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                $"FROM Customer WHERE CustomerId = '{id}'";
+                "FROM Customer WHERE CustomerId = @CustomerId";
 
             try
             {
@@ -100,6 +176,8 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                        cmd.Parameters.AddWithValue("@CustomerId", id);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -123,7 +201,8 @@ namespace SQL_Client.Repositories
         public Customer GetCustomer(string name)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                $"FROM Customer WHERE FirstName LIKE '{name}' OR LastName LIKE '{name}'";
+                //$"FROM Customer WHERE FirstName LIKE '{name}' OR LastName LIKE '{name}'";
+                "FROM Customer WHERE FirstName LIKE @FirstName OR LastName LIKE @LastName";
 
             try
             {
@@ -133,6 +212,9 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                        cmd.Parameters.AddWithValue("@FirstName", name);
+                        cmd.Parameters.AddWithValue("@LastName", name);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -153,9 +235,36 @@ namespace SQL_Client.Repositories
             return null;
         }
 
-        public bool UpdateCustomer(Customer customer)
+        public void GetCustomerCountry()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT Country, COUNT(CustomerID) AS Antall FROM CUSTOMER " +
+                "GROUP BY Country ORDER BY Country DESC";
+
+                //"SELECT Country, COUNT(CustomerID), Country FROM CUSTOMER"; // +
+                //"GROUP BY Country ORDER BY COUNT(CustomerID) DESC";
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.WriteLine(reader.GetString(0) + ": " + reader.GetInt32(1));
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         private Customer GetReaderCustomer(SqlDataReader reader)
@@ -183,6 +292,5 @@ namespace SQL_Client.Repositories
 
             return customer;
         }
-
     }
 }
