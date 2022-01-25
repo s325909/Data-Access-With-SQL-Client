@@ -143,15 +143,7 @@ namespace SQL_Client.Repositories
                         cmd.Parameters.AddWithValue("@Offset", offset);
 
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Customer tmpCustomer = GetReaderCustomer(reader);
-
-                                customersList.Add(tmpCustomer);
-                            }
-                        };
+                        return DataReadHelper.GetCustomers(cmd);
                     };
                 };
             }

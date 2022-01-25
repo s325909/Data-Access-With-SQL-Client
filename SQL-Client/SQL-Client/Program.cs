@@ -10,6 +10,7 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
+            TestGetAllCustomers(customerRepo);
 
             TestGetCustomerById(customerRepo);
 
@@ -76,17 +77,27 @@ namespace SQL_Client
 
             
         }
+        public static void TestGetAllCustomers(ICustomerRepo repo)
+        {
+            var customers = repo.GetAllCustomers();
+
+            Console.WriteLine("\nCustomers: ");
+            foreach (var customer in customers)
+            {
+                Console.WriteLine(customer.ToString());
+            }
+        }
 
         public static void TestGetCustomerById(ICustomerRepo repo)
         {
             Customer customer = repo.GetCustomer(10);
-            Console.WriteLine("CustomerId 10: \n" + customer.ToString());
+            Console.WriteLine("\nCustomerId 10: \n" + customer.ToString());
         }
 
         public static void TestGetCustomerByName(ICustomerRepo repo)
         {
             Customer customer = repo.GetCustomer("Mark");
-            Console.WriteLine("Customer(s) by name Mark \n" + customer.ToString());
+            Console.WriteLine("\nCustomer(s) by name Mark \n" + customer.ToString());
         }
 
     }

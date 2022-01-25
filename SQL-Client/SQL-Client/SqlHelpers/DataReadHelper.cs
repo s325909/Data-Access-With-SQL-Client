@@ -20,7 +20,24 @@ namespace SQL_Client.SqlHelpers
                 }
             };
 
-            return null;
+            return new Customer();
+        }
+
+        public static List<Customer> GetCustomers(SqlCommand cmd)
+        {
+            var customersList = new List<Customer>();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Customer tmpCustomer = GetReaderCustomer(reader);
+
+                    customersList.Add(tmpCustomer);
+                }
+            };
+
+            return customersList;
         }
 
         private static Customer GetReaderCustomer(SqlDataReader reader)
