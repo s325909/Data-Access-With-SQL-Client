@@ -10,19 +10,6 @@ namespace SQL_Client.SqlHelpers
 {
     public class DataReadHelper
     {
-        public static Customer GetCustomer(SqlCommand cmd)
-        {
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    return GetReaderCustomer(reader); ;
-                }
-            };
-
-            return new Customer();
-        }
-
         public static List<Customer> GetCustomers(SqlCommand cmd)
         {
             var customersList = new List<Customer>();
@@ -38,6 +25,19 @@ namespace SQL_Client.SqlHelpers
             };
 
             return customersList;
+        }
+
+        public static Customer GetCustomer(SqlCommand cmd)
+        {
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    return GetReaderCustomer(reader); ;
+                }
+            };
+
+            return new Customer();
         }
 
         private static Customer GetReaderCustomer(SqlDataReader reader)

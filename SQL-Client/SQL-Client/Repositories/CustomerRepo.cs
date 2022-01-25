@@ -104,15 +104,7 @@ namespace SQL_Client.Repositories
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Customer tmpCustomer = GetReaderCustomer(reader);
-
-                                customersList.Add(tmpCustomer);
-                            }
-                        };
+                        return DataReadHelper.GetCustomers(cmd);
                     };
                 };
             } catch (SqlException ex)
@@ -142,8 +134,21 @@ namespace SQL_Client.Repositories
                         cmd.Parameters.AddWithValue("@Limit", limit);
                         cmd.Parameters.AddWithValue("@Offset", offset);
 
-
                         return DataReadHelper.GetCustomers(cmd);
+
+                        /**
+                         
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Customer tmpCustomer = GetReaderCustomer(reader);
+
+                                customersList.Add(tmpCustomer);
+                            }
+                        };
+
+                        **/
                     };
                 };
             }

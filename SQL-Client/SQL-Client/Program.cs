@@ -16,6 +16,7 @@ namespace SQL_Client
 
             TestGetCustomerByName(customerRepo);
 
+            TestLimitCustomersByOffset(customerRepo);
             
             /**
             
@@ -100,5 +101,15 @@ namespace SQL_Client
             Console.WriteLine("\nCustomer(s) by name Mark \n" + customer.ToString());
         }
 
+        public static void TestLimitCustomersByOffset(ICustomerRepo repo) 
+        {
+            var customers = repo.GetAllCustomers(5, 15);
+
+            Console.WriteLine("\nCustomers (limit 5 | offset 15): ");
+            foreach (var customer in customers)
+            {
+                Console.WriteLine(customer.ToString());
+            }
+        }
     }
 }
