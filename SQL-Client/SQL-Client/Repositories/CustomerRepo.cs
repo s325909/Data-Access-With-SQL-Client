@@ -186,7 +186,42 @@ namespace SQL_Client.Repositories
 
         public bool UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            // string sql = "UPDATE Customer SET FirstName = @"
+
+            String sql = "Update Customer SET " +
+                "FirstName = @FirstName, LastName = @LastName, " +
+                "Country = @Country, PostalCode = @PostalCode, " +
+                "Phone = @Phone, Email = @Email " +
+                "WHERE CustomerID = @CustomerID";   // CustomerID = @CustomerID
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+
+                        cmd.ExecuteNonQuery();
+
+                        return true;
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return false;
         }
 
         private Customer GetReaderCustomer(SqlDataReader reader)
