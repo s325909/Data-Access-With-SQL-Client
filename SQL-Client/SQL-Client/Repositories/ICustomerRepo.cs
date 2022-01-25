@@ -19,7 +19,7 @@ namespace SQL_Client.Repositories
 
         public List<Customer> GetAllCustomers(int limit, int offset);
 
-        public bool AddNewCustomer(Customer customer);
+        public bool CreateCustomer(Customer customer);
 
         public bool UpdateCustomer(Customer customer);
 

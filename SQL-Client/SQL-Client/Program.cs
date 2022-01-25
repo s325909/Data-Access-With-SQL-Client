@@ -10,13 +10,26 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
+            // Reads all the customers in the database
             TestGetAllCustomers(customerRepo);
 
+            // Reads a specific customer from the database by id
             TestGetCustomerById(customerRepo);
 
+            // Reads a specific customer from the database by name using keyword LIKE
             TestGetCustomerByName(customerRepo);
 
+            // Returns a page of customers from the database using keywords LIMIT and OFFSET
             TestLimitCustomersByOffset(customerRepo);
+
+            // Adds a new customer to the database
+            // TestCreateCustomer(customerRepo);
+
+            // Updates an existing customer
+            TestUpdateCustomer(customerRepo);
+
+
+
             
             /**
             
@@ -78,7 +91,9 @@ namespace SQL_Client
 
             
         }
-        public static void TestGetAllCustomers(ICustomerRepo repo)
+
+
+        private static void TestGetAllCustomers(ICustomerRepo repo)
         {
             var customers = repo.GetAllCustomers();
 
@@ -89,19 +104,19 @@ namespace SQL_Client
             }
         }
 
-        public static void TestGetCustomerById(ICustomerRepo repo)
+        private static void TestGetCustomerById(ICustomerRepo repo)
         {
             Customer customer = repo.GetCustomer(10);
             Console.WriteLine("\nCustomerId 10: \n" + customer.ToString());
         }
 
-        public static void TestGetCustomerByName(ICustomerRepo repo)
+        private static void TestGetCustomerByName(ICustomerRepo repo)
         {
             Customer customer = repo.GetCustomer("Mark");
             Console.WriteLine("\nCustomer(s) by name Mark \n" + customer.ToString());
         }
 
-        public static void TestLimitCustomersByOffset(ICustomerRepo repo) 
+        private static void TestLimitCustomersByOffset(ICustomerRepo repo) 
         {
             var customers = repo.GetAllCustomers(5, 15);
 
@@ -110,6 +125,30 @@ namespace SQL_Client
             {
                 Console.WriteLine(customer.ToString());
             }
+        }
+
+        private static void TestCreateCustomer(ICustomerRepo customerRepo)
+        {
+            Customer customer = new() 
+            {
+                FirstName = "Are",
+                LastName = "Pettersen",
+                Country = "Norge",
+                PostalCode = "3000",
+                PhoneNumber = "0309940224",
+                Email = "AJdks@djsfp.ado"
+            };
+            Console.WriteLine("\nCreate Customer: " + customer.ToString());
+            bool successful = customerRepo.CreateCustomer(customer);
+            if (successful)
+                Console.WriteLine("Succesful: " + customerRepo.GetCustomer("Are"));
+            else
+                Console.WriteLine("FAILED TO ADD NEW CUSTOMER...");
+        }
+
+        private static void TestUpdateCustomer(ICustomerRepo customerRepo)
+        {
+            throw new NotImplementedException();
         }
     }
 }
