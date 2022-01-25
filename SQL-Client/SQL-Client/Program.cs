@@ -10,6 +10,16 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
+
+            TestGetCustomerById(customerRepo);
+
+            TestGetCustomerByName(customerRepo);
+
+            
+            /**
+            
+            ICustomerRepo customerRepo = new CustomerRepo();
+
             var customers = customerRepo.GetAllCustomers(2, 5);
 
             //var customers = customerRepo.GetAllCustomers();
@@ -52,6 +62,8 @@ namespace SQL_Client
                 PhoneNumber = "0309940224",
                 Email = "AJdks@djsfp.ado"
             };
+
+
             **/
 
 
@@ -60,6 +72,22 @@ namespace SQL_Client
             // newCustomer.FirstName = "Svein";
 
             // customerRepo.UpdateCustomer(newCustomer);
+
+
+            
         }
+
+        public static void TestGetCustomerById(ICustomerRepo repo)
+        {
+            Customer customer = repo.GetCustomer(10);
+            Console.WriteLine("CustomerId 10: \n" + customer.ToString());
+        }
+
+        public static void TestGetCustomerByName(ICustomerRepo repo)
+        {
+            Customer customer = repo.GetCustomer("Mark");
+            Console.WriteLine("Customer(s) by name Mark \n" + customer.ToString());
+        }
+
     }
 }

@@ -174,25 +174,18 @@ namespace SQL_Client.Repositories
                 using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
                 {
                     connection.Open();
+
                     using (SqlCommand cmd = new(sql, connection))
                     {
                         cmd.Parameters.AddWithValue("@CustomerId", id);
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Customer tmpCustomer = GetReaderCustomer(reader);
-
-                                return tmpCustomer;
-                            }
-                        };
+                        return DataReadHelper.GetCustomer(cmd);
                     };
                 };
-            }
-            catch (SqlException ex)
+            } 
+            catch (SqlException exception)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(exception.ToString());
             }
 
             return null;
@@ -201,7 +194,6 @@ namespace SQL_Client.Repositories
         public Customer GetCustomer(string name)
         {
             string sql = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                //$"FROM Customer WHERE FirstName LIKE '{name}' OR LastName LIKE '{name}'";
                 "FROM Customer WHERE FirstName LIKE @FirstName OR LastName LIKE @LastName";
 
             try
@@ -215,15 +207,7 @@ namespace SQL_Client.Repositories
                         cmd.Parameters.AddWithValue("@FirstName", name);
                         cmd.Parameters.AddWithValue("@LastName", name);
 
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Customer tmpCustomer = GetReaderCustomer(reader);
-
-                                return tmpCustomer;
-                            }
-                        };
+                        return DataReadHelper.GetCustomer(cmd);
                     };
                 };
             }
