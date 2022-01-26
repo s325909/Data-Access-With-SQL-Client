@@ -10,7 +10,7 @@ namespace SQL_Client.Repositories
 {
     public class CustomerCountryRepo : ICustomerCountryRepo
     {
-        List<CustomerCountry> ICustomerCountryRepo.GetCustomerCountries()
+        public List<CustomerCountry> GetCustomerCountries()
         {
             string sql = "SELECT Country, COUNT(CustomerId) AS Quantity FROM CUSTOMER " +
                 "GROUP BY Country ORDER BY Country DESC";

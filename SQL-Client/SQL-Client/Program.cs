@@ -23,16 +23,22 @@ namespace SQL_Client
             TestLimitCustomersByOffset(customerRepo);
 
             // Adds a new customer to the database
-            TestCreateCustomer(customerRepo);
+            // TestCreateCustomer(customerRepo);
 
             // Updates an existing customer
-            TestUpdateCustomer(customerRepo);
+            // TestUpdateCustomer(customerRepo);
 
 
             ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
 
             // get the number of customers in each country
-            TestGetCustomersPerCountry(customerCountryRepo);
+            // TestGetCustomersPerCountry(customerCountryRepo);
+
+
+            CustomerSpenderRepo customerSpenderRepo = new CustomerSpenderRepo();
+
+            // get the highest spenders
+            TestGetCustomerSpenders(customerSpenderRepo);
 
             // customerRepo.GetCustomerCountry();
            // Console.WriteLine(customerRepo.GetCustomerCountry());
@@ -110,7 +116,7 @@ namespace SQL_Client
 
         private static void TestGetCustomersPerCountry(ICustomerCountryRepo customerCountryRepo)
         {
-            Console.WriteLine("Get number of customers in each country");
+            Console.WriteLine("\nGet number of customers in each country");
 
             var customerCountries = customerCountryRepo.GetCustomerCountries();
 
@@ -120,5 +126,17 @@ namespace SQL_Client
             }
         }
 
+
+        private static void TestGetCustomerSpenders(CustomerSpenderRepo customerSpenderRepo)
+        {
+            Console.WriteLine("\nGet highest spending customers");
+
+            var spenders = customerSpenderRepo.GetCustomerSpenders();
+
+            foreach (var spender in spenders)
+            {
+                Console.WriteLine(spender.ToString());
+            }
+        }
     }
 }
