@@ -47,6 +47,11 @@ namespace SQL_Client
             TestGetCustomerGenres(customerGenreRepo, 39);
             TestGetCustomerGenres(customerGenreRepo, 40);
             TestGetCustomerGenres(customerGenreRepo, 41);
+
+            for (int i = 1; i < 60; i++)
+            {
+                // TestGetCustomerGenres(customerGenreRepo, i);
+            }
         }
 
         private static void TestGetAllCustomers(ICustomerRepo repo)
@@ -146,9 +151,12 @@ namespace SQL_Client
         {
             Console.WriteLine($"\nGet customer [{customerId}] most popular genre(s)");
 
-            var customerGenre = customerGenreRepo.GetCustomerGenre(customerId);
+            var customerGenres = customerGenreRepo.GetCustomerGenre(customerId); 
 
-            Console.WriteLine(customerGenre.ToString());
+            foreach (var customerGenre in customerGenres)
+            {
+                Console.WriteLine(customerGenre.ToString());
+            }
         }
     }
 }

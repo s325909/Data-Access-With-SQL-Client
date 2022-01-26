@@ -5,6 +5,6 @@ namespace SQL_Client.Repositories
 {
     public interface ICustomerGenreRepo
     {
-        public CustomerGenre GetCustomerGenre(int customerId); 
+        public List<CustomerGenre> GetCustomerGenre(int customerId); 
     } 
 }

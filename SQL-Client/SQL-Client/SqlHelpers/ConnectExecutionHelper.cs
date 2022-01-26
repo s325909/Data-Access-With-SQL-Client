@@ -209,8 +209,9 @@ namespace SQL_Client.SqlHelpers
             return customerSpenders;
         }
 
-        public static CustomerGenre GetCustomerMostPopularGenre(string sql, int customerId) 
+        public static List<CustomerGenre> GetCustomerMostPopularGenre(string sql, int customerId) 
         {
+            List<CustomerGenre> customerGenres = new(); 
             try
             {
                 // connect to the database
@@ -230,7 +231,7 @@ namespace SQL_Client.SqlHelpers
                                 customerGenre.CustomerFirstName = reader.GetString(1);
                                 customerGenre.CustomerLastName = reader.GetString(2);
                                 customerGenre.GenreCount = reader.GetInt32(3);
-                                return customerGenre;
+                                customerGenres.Add(customerGenre);
                             }
                         };
                     };
@@ -241,7 +242,7 @@ namespace SQL_Client.SqlHelpers
                 Console.WriteLine(ex.ToString());
             }
 
-            return new();
+            return customerGenres;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SQL_Client.Repositories
 {
     public class CustomerGenreRepo : ICustomerGenreRepo
     {
-        public CustomerGenre GetCustomerGenre(int customerId)
+        public List<CustomerGenre> GetCustomerGenre(int customerId)
         {
             string sql = "SELECT TOP 1 WITH TIES Genre.Name, Customer.FirstName, Customer.LastName, ";
             sql += "COUNT(Genre.Name) AS COUNT FROM Genre ";
