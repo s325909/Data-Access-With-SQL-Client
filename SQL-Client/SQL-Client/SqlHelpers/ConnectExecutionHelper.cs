@@ -212,5 +212,42 @@ namespace SQL_Client.SqlHelpers
             return customerSpenders;
         }
 
+        public static List<CustomerGenre> GetCustomerGenres(string sql)
+        {
+            List<CustomerGenre> customerGenres = new(); 
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CustomerGenre genre = new();
+
+                                Console.WriteLine($"{reader.GetString(0)} | {reader.GetInt32(1)}");
+                                
+                                //spender.SpenderTotalAmount = reader.GetDecimal(0);
+                                //spender.SpenderFirstName = reader.GetString(1);
+                                //spender.SpenderLastName = reader.GetString(2);
+                                
+                                customerGenres.Add(genre);
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return customerGenres;
+        }
     }
 }

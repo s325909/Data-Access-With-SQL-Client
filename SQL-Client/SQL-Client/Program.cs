@@ -10,6 +10,13 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
+            ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
+
+            ICustomerSpenderRepo customerSpenderRepo = new CustomerSpenderRepo();
+
+            ICustomerGenreRepo customerGenreRepo = new CustomerGenreRepo();
+
+
             // Reads all the customers in the database
             TestGetAllCustomers(customerRepo);
 
@@ -23,25 +30,19 @@ namespace SQL_Client
             TestLimitCustomersByOffset(customerRepo);
 
             // Adds a new customer to the database
-            // TestCreateCustomer(customerRepo);
+            TestCreateCustomer(customerRepo);
 
             // Updates an existing customer
-            // TestUpdateCustomer(customerRepo);
-
-
-            ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
+            TestUpdateCustomer(customerRepo);
 
             // get the number of customers in each country
-            // TestGetCustomersPerCountry(customerCountryRepo);
-
-
-            CustomerSpenderRepo customerSpenderRepo = new CustomerSpenderRepo();
+            TestGetCustomersPerCountry(customerCountryRepo);
 
             // get the highest spenders
             TestGetCustomerSpenders(customerSpenderRepo);
 
-            // customerRepo.GetCustomerCountry();
-           // Console.WriteLine(customerRepo.GetCustomerCountry());
+            // get most popular genres from customers
+            TestGetCustomerGenres(customerGenreRepo);
         }
 
         private static void TestGetAllCustomers(ICustomerRepo repo)
@@ -80,7 +81,7 @@ namespace SQL_Client
 
         private static void TestCreateCustomer(ICustomerRepo customerRepo)
         {
-            string name = "Per";
+            string name = "Pål";
             Customer customer = new() 
             {
                 FirstName = name,
@@ -104,7 +105,7 @@ namespace SQL_Client
             Customer customer = customerRepo.GetCustomer(60);
             Console.WriteLine("\nUpdate Customer: " + customer.ToString());
 
-            customer.FirstName = "Olav";
+            customer.FirstName = "Sverre";
 
             bool successful = customerRepo.UpdateCustomer(customer); 
             if (successful)
@@ -127,7 +128,7 @@ namespace SQL_Client
         }
 
 
-        private static void TestGetCustomerSpenders(CustomerSpenderRepo customerSpenderRepo)
+        private static void TestGetCustomerSpenders(ICustomerSpenderRepo customerSpenderRepo)
         {
             Console.WriteLine("\nGet highest spending customers");
 
@@ -136,6 +137,18 @@ namespace SQL_Client
             foreach (var spender in spenders)
             {
                 Console.WriteLine(spender.ToString());
+            }
+        }
+
+        private static void TestGetCustomerGenres(ICustomerGenreRepo customerGenreRepo)
+        {
+            Console.WriteLine("\nGet highest spending customers");
+
+            var genres = customerGenreRepo.GetCustomerGenres();
+
+            foreach (var genre in genres)
+            {
+                Console.WriteLine(genre.ToString());
             }
         }
     }
