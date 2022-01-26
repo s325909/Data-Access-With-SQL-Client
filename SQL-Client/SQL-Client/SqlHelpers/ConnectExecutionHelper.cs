@@ -158,12 +158,9 @@ namespace SQL_Client.SqlHelpers
                         {
                             while (reader.Read())
                             {
-                                Console.WriteLine(reader.GetString(0) + ": " + reader.GetInt32(1));
-
                                 CustomerCountry customerCountry = new();
                                 customerCountry.CountryName = reader.GetString(0);
                                 customerCountry.CustomerCount = reader.GetInt32(1);
-
                                 customerCountries.Add(customerCountry);
                             }
                         };

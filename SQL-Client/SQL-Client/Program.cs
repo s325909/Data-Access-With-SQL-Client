@@ -118,7 +118,6 @@ namespace SQL_Client
                 Console.WriteLine("FAILED TO AUPDATE CUSTOMER...");
         }
 
-
         private static void TestGetCustomersPerCountry(ICustomerCountryRepo customerCountryRepo)
         {
             Console.WriteLine("\nGet number of customers in each country");
@@ -131,10 +130,9 @@ namespace SQL_Client
             }
         }
 
-
         private static void TestGetCustomerSpenders(ICustomerSpenderRepo customerSpenderRepo)
         {
-            Console.WriteLine("\nGet highest spending customers");
+            Console.WriteLine("\nGet top 10 highest spending customers");
 
             var spenders = customerSpenderRepo.GetCustomerSpenders();
 

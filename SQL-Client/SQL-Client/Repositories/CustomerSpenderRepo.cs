@@ -13,7 +13,7 @@ namespace SQL_Client.Repositories
     {
         public List<CustomerSpender> GetCustomerSpenders()
         {
-            string sql = "SELECT SUM(Total) AS SUM, Customer.FirstName, Customer.LastName FROM Invoice ";
+            string sql = "SELECT TOP 10 SUM(Total) AS SUM, Customer.FirstName, Customer.LastName FROM Invoice ";
             sql += "INNER JOIN Customer ON Customer.CustomerId = Invoice.CustomerId ";
             sql += "GROUP BY Customer.FirstName, Customer.LastName ";
             sql += "ORDER BY SUM DESC";
