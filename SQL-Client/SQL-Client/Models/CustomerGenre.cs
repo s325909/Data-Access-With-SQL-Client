@@ -8,11 +8,14 @@ namespace SQL_Client.Models
 {
     public class CustomerGenre
     {
-        public int MyProperty { get; set; }
+        public string CustomerFirstName { get; set; }
+        public string CustomerLastName { get; set; }
+        public string GenreName { get; set; }
+        public int GenreCount { get; set; } 
 
         public override string ToString()
         {
-            return $"{MyProperty} ";
+            return $"{CustomerFirstName} {CustomerLastName} | {GenreName}: {GenreCount}";
         }
     }
 }

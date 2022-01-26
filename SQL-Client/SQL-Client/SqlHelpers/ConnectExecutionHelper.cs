@@ -212,31 +212,28 @@ namespace SQL_Client.SqlHelpers
             return customerSpenders;
         }
 
-        public static List<CustomerGenre> GetCustomerGenres(string sql)
+        public static CustomerGenre GetCustomerMostPopularGenre(string sql, int customerId) 
         {
-            List<CustomerGenre> customerGenres = new(); 
-
             try
             {
-                // Connect
+                // connect to the database
                 using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
                 {
                     connection.Open();
                     using (SqlCommand cmd = new(sql, connection))
                     {
+                        cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                CustomerGenre genre = new();
-
-                                Console.WriteLine($"{reader.GetString(0)} | {reader.GetInt32(1)}");
-                                
-                                //spender.SpenderTotalAmount = reader.GetDecimal(0);
-                                //spender.SpenderFirstName = reader.GetString(1);
-                                //spender.SpenderLastName = reader.GetString(2);
-                                
-                                customerGenres.Add(genre);
+                                CustomerGenre customerGenre = new();
+                                customerGenre.GenreName = reader.GetString(0);
+                                customerGenre.CustomerFirstName = reader.GetString(1);
+                                customerGenre.CustomerLastName = reader.GetString(2);
+                                customerGenre.GenreCount = reader.GetInt32(3);
+                                return customerGenre;
                             }
                         };
                     };
@@ -247,7 +244,7 @@ namespace SQL_Client.SqlHelpers
                 Console.WriteLine(ex.ToString());
             }
 
-            return customerGenres;
+            return new();
         }
     }
 }

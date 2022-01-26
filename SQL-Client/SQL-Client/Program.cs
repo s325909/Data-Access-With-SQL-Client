@@ -41,15 +41,19 @@ namespace SQL_Client
             // get the highest spenders
             TestGetCustomerSpenders(customerSpenderRepo);
 
+            Console.WriteLine("\n\nGet most popular genre(s) from customers");
+
             // get most popular genres from customers
-            TestGetCustomerGenres(customerGenreRepo);
+            TestGetCustomerGenres(customerGenreRepo, 39);
+            TestGetCustomerGenres(customerGenreRepo, 40);
+            TestGetCustomerGenres(customerGenreRepo, 41);
         }
 
         private static void TestGetAllCustomers(ICustomerRepo repo)
         {
             var customers = repo.GetAllCustomers();
 
-            Console.WriteLine("\nCustomers: ");
+            Console.WriteLine("\nAll Customers: ");
             foreach (var customer in customers)
             {
                 Console.WriteLine(customer.ToString());
@@ -81,11 +85,11 @@ namespace SQL_Client
 
         private static void TestCreateCustomer(ICustomerRepo customerRepo)
         {
-            string name = "Pål";
+            string name = "Chad";
             Customer customer = new() 
             {
                 FirstName = name,
-                LastName = "Pettersen",
+                LastName = "Nielsen",
                 Country = "Norge",
                 PostalCode = "3000",
                 PhoneNumber = "0309940224",
@@ -105,7 +109,7 @@ namespace SQL_Client
             Customer customer = customerRepo.GetCustomer(60);
             Console.WriteLine("\nUpdate Customer: " + customer.ToString());
 
-            customer.FirstName = "Sverre";
+            customer.FirstName = "Ultra Chad";
 
             bool successful = customerRepo.UpdateCustomer(customer); 
             if (successful)
@@ -140,16 +144,13 @@ namespace SQL_Client
             }
         }
 
-        private static void TestGetCustomerGenres(ICustomerGenreRepo customerGenreRepo)
+        private static void TestGetCustomerGenres(ICustomerGenreRepo customerGenreRepo, int customerId)
         {
-            Console.WriteLine("\nGet highest spending customers");
+            Console.WriteLine($"\nGet customer [{customerId}] most popular genre(s)");
 
-            var genres = customerGenreRepo.GetCustomerGenres();
+            var customerGenre = customerGenreRepo.GetCustomerGenre(customerId);
 
-            foreach (var genre in genres)
-            {
-                Console.WriteLine(genre.ToString());
-            }
+            Console.WriteLine(customerGenre.ToString());
         }
     }
 }
