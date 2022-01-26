@@ -13,7 +13,8 @@ Created SQL scripts and used C# to build a console application
 ### Tools installed 
 
 * Visual Studio 2019 with .NET 5.
-  ** microsoft.data.sqlclient (4.0.1)
+  * Package Depencdenices: 
+    * microsoft.data.sqlclient (4.0.1)
 
 ## Authors and Developers
 
