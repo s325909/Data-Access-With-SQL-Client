@@ -141,5 +141,108 @@ namespace SQL_Client.SqlHelpers
 
             return customersList;
         }
+
+        public static List<CustomerCountry> GetCustomerCountry(string sql)
+        {
+            List<CustomerCountry> customerCountries = new();
+              
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CustomerCountry customerCountry = new();
+                                customerCountry.CountryName = reader.GetString(0);
+                                customerCountry.CustomerCount = reader.GetInt32(1);
+                                customerCountries.Add(customerCountry);
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return customerCountries;
+        }
+
+        public static List<CustomerSpender> GetCustomerSpenders(string sql)
+        {
+            List<CustomerSpender> customerSpenders = new(); 
+
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CustomerSpender spender = new();
+                                spender.SpenderTotalAmount = reader.GetDecimal(0);
+                                spender.SpenderFirstName = reader.GetString(1);
+                                spender.SpenderLastName = reader.GetString(2);
+                                customerSpenders.Add(spender);
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return customerSpenders;
+        }
+
+        public static List<CustomerGenre> GetCustomerMostPopularGenre(string sql, int customerId) 
+        {
+            List<CustomerGenre> customerGenres = new(); 
+            try
+            {
+                // connect to the database
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CustomerGenre customerGenre = new();
+                                customerGenre.GenreName = reader.GetString(0);
+                                customerGenre.CustomerFirstName = reader.GetString(1);
+                                customerGenre.CustomerLastName = reader.GetString(2);
+                                customerGenre.GenreCount = reader.GetInt32(3);
+                                customerGenres.Add(customerGenre);
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return customerGenres;
+        }
     }
 }

@@ -10,6 +10,13 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
+            ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
+
+            ICustomerSpenderRepo customerSpenderRepo = new CustomerSpenderRepo();
+
+            ICustomerGenreRepo customerGenreRepo = new CustomerGenreRepo();
+
+
             // Reads all the customers in the database
             TestGetAllCustomers(customerRepo);
 
@@ -28,17 +35,29 @@ namespace SQL_Client
             // Updates an existing customer
             TestUpdateCustomer(customerRepo);
 
+            // get the number of customers in each country
+            TestGetCustomersPerCountry(customerCountryRepo);
 
-            // customerRepo.GetCustomerCountry();
-           // Console.WriteLine(customerRepo.GetCustomerCountry());
+            // get the highest spenders
+            TestGetCustomerSpenders(customerSpenderRepo);
+
+            Console.WriteLine("\n\nGet most popular genre(s) from customers");
+
+            // get most popular genres from customers
+            TestGetCustomerGenres(customerGenreRepo, 29);
+            TestGetCustomerGenres(customerGenreRepo, 39);
+
+            for (int i = 1; i < 60; i++)
+            {
+                // TestGetCustomerGenres(customerGenreRepo, i);
+            }
         }
-
 
         private static void TestGetAllCustomers(ICustomerRepo repo)
         {
             var customers = repo.GetAllCustomers();
 
-            Console.WriteLine("\nCustomers: ");
+            Console.WriteLine("\nAll Customers: ");
             foreach (var customer in customers)
             {
                 Console.WriteLine(customer.ToString());
@@ -70,11 +89,11 @@ namespace SQL_Client
 
         private static void TestCreateCustomer(ICustomerRepo customerRepo)
         {
-            string name = "Per";
+            string name = "Chad";
             Customer customer = new() 
             {
                 FirstName = name,
-                LastName = "Pettersen",
+                LastName = "Nielsen",
                 Country = "Norge",
                 PostalCode = "3000",
                 PhoneNumber = "0309940224",
@@ -94,13 +113,49 @@ namespace SQL_Client
             Customer customer = customerRepo.GetCustomer(60);
             Console.WriteLine("\nUpdate Customer: " + customer.ToString());
 
-            customer.FirstName = "Olav";
+            customer.FirstName = "Ultra Chad";
 
             bool successful = customerRepo.UpdateCustomer(customer); 
             if (successful)
                 Console.WriteLine("Succesful: " + customerRepo.GetCustomer(60));
             else
                 Console.WriteLine("FAILED TO AUPDATE CUSTOMER...");
+        }
+
+        private static void TestGetCustomersPerCountry(ICustomerCountryRepo customerCountryRepo)
+        {
+            Console.WriteLine("\nGet number of customers in each country");
+
+            var customerCountries = customerCountryRepo.GetCustomerCountries();
+
+            foreach (var customerCountry in customerCountries)
+            {
+                Console.WriteLine(customerCountry.ToString());
+            }
+        }
+
+        private static void TestGetCustomerSpenders(ICustomerSpenderRepo customerSpenderRepo)
+        {
+            Console.WriteLine("\nGet top 10 highest spending customers");
+
+            var spenders = customerSpenderRepo.GetCustomerSpenders();
+
+            foreach (var spender in spenders)
+            {
+                Console.WriteLine(spender.ToString());
+            }
+        }
+
+        private static void TestGetCustomerGenres(ICustomerGenreRepo customerGenreRepo, int customerId)
+        {
+            Console.WriteLine($"\nGet customer [{customerId}] most popular genre(s)");
+
+            var customerGenres = customerGenreRepo.GetCustomerGenre(customerId); 
+
+            foreach (var customerGenre in customerGenres)
+            {
+                Console.WriteLine(customerGenre.ToString());
+            }
         }
     }
 }
