@@ -44,9 +44,8 @@ namespace SQL_Client
             Console.WriteLine("\n\nGet most popular genre(s) from customers");
 
             // get most popular genres from customers
+            TestGetCustomerGenres(customerGenreRepo, 29);
             TestGetCustomerGenres(customerGenreRepo, 39);
-            TestGetCustomerGenres(customerGenreRepo, 40);
-            TestGetCustomerGenres(customerGenreRepo, 41);
 
             for (int i = 1; i < 60; i++)
             {
