@@ -141,5 +141,41 @@ namespace SQL_Client.SqlHelpers
 
             return customersList;
         }
+
+        public static List<CustomerCountry> GetCustomerCountry(string sql)
+        {
+            List<CustomerCountry> customerCountries = new();
+              
+            try
+            {
+                // Connect
+                using (SqlConnection connection = new(ConnectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new(sql, connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.WriteLine(reader.GetString(0) + ": " + reader.GetInt32(1));
+
+                                CustomerCountry customerCountry = new();
+                                customerCountry.CountryName = reader.GetString(0);
+                                customerCountry.CustomerCount = reader.GetInt32(1);
+
+                                customerCountries.Add(customerCountry);
+                            }
+                        };
+                    };
+                };
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return customerCountries;
+        }
     }
 }

@@ -29,10 +29,14 @@ namespace SQL_Client
             TestUpdateCustomer(customerRepo);
 
 
+            ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
+
+            // get the number of customers in each country
+            TestGetCustomersPerCountry(customerCountryRepo);
+
             // customerRepo.GetCustomerCountry();
            // Console.WriteLine(customerRepo.GetCustomerCountry());
         }
-
 
         private static void TestGetAllCustomers(ICustomerRepo repo)
         {
@@ -102,5 +106,19 @@ namespace SQL_Client
             else
                 Console.WriteLine("FAILED TO AUPDATE CUSTOMER...");
         }
+
+
+        private static void TestGetCustomersPerCountry(ICustomerCountryRepo customerCountryRepo)
+        {
+            Console.WriteLine("Get number of customers in each country");
+
+            var customerCountries = customerCountryRepo.GetCustomerCountries();
+
+            foreach (var customerCountry in customerCountries)
+            {
+                Console.WriteLine(customerCountry.ToString());
+            }
+        }
+
     }
 }
