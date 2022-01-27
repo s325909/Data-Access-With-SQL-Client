@@ -9,7 +9,7 @@ namespace SQL_Client.Repositories
     public class CustomerRepo : ICustomerRepo
     {
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query and returns all customers from customer table
         /// </summary>
         /// <returns>list of all customers</returns>
         public List<Customer> GetAllCustomers()
@@ -19,7 +19,7 @@ namespace SQL_Client.Repositories
         }
 
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query and returns a page of customers from customer table
         /// </summary>
         /// <param name="limit"></param>
         /// <param name="offset"></param>
@@ -32,7 +32,7 @@ namespace SQL_Client.Repositories
         }
 
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query and returns a customer from id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>returns a customer by id</returns>
@@ -44,7 +44,7 @@ namespace SQL_Client.Repositories
         }
 
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query and returns a customer from name
         /// </summary>
         /// <param name="name"></param>
         /// <returns>returns a customer by name (firstname or lastname)</returns>
@@ -56,7 +56,7 @@ namespace SQL_Client.Repositories
         }
 
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query to add a new customer to customer table
         /// </summary>
         /// <param name="customer"></param>
         /// <returns>true or false if the customer has been added to the database</returns>
@@ -68,7 +68,7 @@ namespace SQL_Client.Repositories
         }
 
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query to update an existing customer from customer table
         /// </summary>
         /// <param name="customer"></param>
         /// <returns>returns true or false if customer updated in the database </returns>
@@ -81,7 +81,7 @@ namespace SQL_Client.Repositories
         }
 
         /// <summary>
-        /// this function connects to the database and executes a SQL query 
+        /// this function connects to the database and executes a SQL query to delete a customer from customer table
         /// </summary>
         /// <param name="customer"></param>
         /// <returns>true or false if customer deleted from the database</returns>
