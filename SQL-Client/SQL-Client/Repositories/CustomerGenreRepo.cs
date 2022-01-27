@@ -1,15 +1,16 @@
-﻿using SQL_Client.Models;
+﻿using System.Collections.Generic;
+using SQL_Client.Models;
 using SQL_Client.SqlHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SQL_Client.Repositories
 {
     public class CustomerGenreRepo : ICustomerGenreRepo
     {
+        /// <summary>
+        /// connects to the database and uses SQL Select query and returns the top 1 genre(s) of a customer
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns>a list of CustomerGenre</returns>
         public List<CustomerGenre> GetCustomerGenre(int customerId)
         {
             string sql = "SELECT TOP 1 WITH TIES Genre.Name, Customer.FirstName, Customer.LastName, ";

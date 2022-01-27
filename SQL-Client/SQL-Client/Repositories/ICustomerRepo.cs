@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SQL_Client.Models;
 
 namespace SQL_Client.Repositories
@@ -16,8 +12,6 @@ namespace SQL_Client.Repositories
         public Customer GetCustomer(int id);
 
         public Customer GetCustomer(string name);
-
-        public void GetCustomerCountry();   // move to seperate CustomerCountry class model
 
         public bool CreateCustomer(Customer customer);
 

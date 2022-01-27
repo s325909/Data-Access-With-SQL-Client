@@ -10,13 +10,6 @@ namespace SQL_Client
         {
             ICustomerRepo customerRepo = new CustomerRepo();
 
-            ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
-
-            ICustomerSpenderRepo customerSpenderRepo = new CustomerSpenderRepo();
-
-            ICustomerGenreRepo customerGenreRepo = new CustomerGenreRepo();
-
-
             // Reads all the customers in the database
             TestGetAllCustomers(customerRepo);
 
@@ -35,22 +28,25 @@ namespace SQL_Client
             // Updates an existing customer
             TestUpdateCustomer(customerRepo);
 
+
+            ICustomerCountryRepo customerCountryRepo = new CustomerCountryRepo();
+
             // get the number of customers in each country
             TestGetCustomersPerCountry(customerCountryRepo);
+
+
+            ICustomerSpenderRepo customerSpenderRepo = new CustomerSpenderRepo();
 
             // get the highest spenders
             TestGetCustomerSpenders(customerSpenderRepo);
 
-            Console.WriteLine("\n\nGet most popular genre(s) from customers");
+
+            ICustomerGenreRepo customerGenreRepo = new CustomerGenreRepo();
 
             // get most popular genres from customers
+            Console.WriteLine("\n\nGet most popular genre(s) from customers");
             TestGetCustomerGenres(customerGenreRepo, 29);
             TestGetCustomerGenres(customerGenreRepo, 39);
-
-            for (int i = 1; i < 60; i++)
-            {
-                // TestGetCustomerGenres(customerGenreRepo, i);
-            }
         }
 
         private static void TestGetAllCustomers(ICustomerRepo repo)
@@ -96,8 +92,8 @@ namespace SQL_Client
                 LastName = "Nielsen",
                 Country = "Norge",
                 PostalCode = "3000",
-                PhoneNumber = "0309940224",
-                Email = "AJdks@djsfp.ado"
+                PhoneNumber = "+47 234 56 789",
+                Email = "chad@chadsen.ado"
             };
             Console.WriteLine("\nCreate Customer: " + customer.ToString());
             bool successful = customerRepo.CreateCustomer(customer);
@@ -114,6 +110,7 @@ namespace SQL_Client
             Console.WriteLine("\nUpdate Customer: " + customer.ToString());
 
             customer.FirstName = "Ultra Chad";
+            customer.LastName = "Chadsen";
 
             bool successful = customerRepo.UpdateCustomer(customer); 
             if (successful)

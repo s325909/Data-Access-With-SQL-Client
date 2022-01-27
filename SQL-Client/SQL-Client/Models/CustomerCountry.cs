@@ -13,7 +13,7 @@ namespace SQL_Client.Models
 
         public override string ToString()
         {
-            return CountryName + ": " + CustomerCount;
+            return $"{CountryName}: {CustomerCount}";
         }
     }
 }
